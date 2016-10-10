@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="saxos.css"> 
+    </head>
+    <script>
+        function venta(){
+            var objetoSelec=arguments[0];
+            //alert(objetoSelec.id);
+            imagenSaxo=objetoSelec.getElementsByTagName("img")[0];
+            alert(imagenSaxo.src);
+            parrafoCosteSaxo=objetoSelec.getElementsByTagName("p")[0];
+            alert(parrafoCosteSaxo.firstChild.nodeValue);
+            /*costeSaxo=parrafoCosteSaxo.getText[0];
+            posIgual=costeSaxo.indexOf(":");
+            posEuro=costeSaxo.indexOf("€");
+            precioSaxo=costeSaxo.slice(posIgual,posEuro);
+            alert(precioSaxo)*/
+            
+        }
+    </script>
+    <body>
+        <div id="articulos_en_venta">
+            <div id="soprano" class="saxo" onclick="venta(this)"><!--venta(this) pasa todo el objeto-->
+                <img class="saxo_imagen" src="http://2.bp.blogspot.com/-ddQVwDoRAk0/TZTZCGACl8I/AAAAAAAAADg/2DcZTqFNClY/s1600/soprano.gif" />
+                <p> Precio: 2000€ </p>
+            </div>
+            <div id="alto" class="saxo" onclick="venta(this)">
+                <img class="saxo_imagen" src="http://www.riveramusica.com/imagenes/menguantes/grandes/11208AJ484_0.jpg" />
+                <p> Precio: 3500€ </p>
+            </div>
+            <div id="tenor" class="saxo" onclick="venta(this)">
+                <img class="saxo_imagen" src="http://www.saxoafons.com/382-777-thickbox/saxofon-tenor-selmer-mate-grabado.jpg" />
+                <p> Precio: 4000€ </p>
+            </div>
+             <div id="baritono" class="saxo" onclick="venta(this)">
+                <img class="saxo_imagen" src="http://www.casatejera.com/Foto_general.php?tabla=ARTICULOS&campo=Imagen&Codigo=381" />
+                <p> Precio: 5500€ </p>
+            </div>
+        </div>
+        <div id="muestra"></div>
+        <div id="articulos_seleccionados"></div>
+    </body>
+</html>

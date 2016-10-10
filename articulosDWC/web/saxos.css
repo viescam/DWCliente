@@ -1,0 +1,10 @@
+.articulos_en_venta{
+    display:block;
+}
+.saxo{
+    float:left;
+}
+.saxo_imagen{
+    height: 300px;
+    width: 200px;
+}
