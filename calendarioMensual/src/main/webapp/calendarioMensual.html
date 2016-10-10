@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Calendario</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="calendarioMensual.css"> 
+    </head>
+    <script>
+
+	function sacarFecha(){
+		mesActual = document.getElementById("mes").value;
+                anyoActual = document.getElementById("anyo").value;
+		
+		mostrar();
+	}
+	function mesAnterior(){
+		mesActual--;
+		if(mesActual<0){
+			anyoActual--;
+			mesActual=11;
+		}
+		mostrar();
+	}
+	function mesPosterior(){
+		mesActual++;
+		if(mesActual>11){
+			anyoActual++;
+			mesActual=0;
+		}
+		mostrar();
+	}
+	function mostrar(){
+		
+            meses = [[31,"Enero"],[28,"Febrero"],[31,"Marzo"],[30,"Abril"],[31,"Mayo"],[30,"Junio"],[31,"Julio"],[31,"Agosto"],[30,"Septiembre"],[31,"Octubre"],[30,"Noviembre"],[31,"Diciembre"]];
+            diasSemana = ["L", "M", "X", "J", "V", "S", "D"];	
+            // Obtenemos el valor por el id
+            //mesActual = document.getElementById("mes").value;
+            //anyoActual = document.getElementById("anyo").value;
+            hoy = new Date();
+            diaHoy = hoy.getDate();
+            mesHoy = hoy.getMonth();
+            anyoHoy = hoy.getFullYear();
+				
+            dia1 = new Date(anyoActual,mesActual,1);
+            diaSemana1=dia1.getDay();
+            if(diaSemana1==0){
+                diaSemana1=7;
+            }
+
+            mesCalendario=meses[mesActual][1]+" de "+anyoActual;
+            document.getElementById("mesCalendario").innerHTML=mesCalendario;
+
+            diasDelMes = meses[mesActual][0];
+            if(mesActual==1 && ((anyoActual % 4 == 0) && ((anyoActual % 100 != 0) || (anyoActual % 400 == 0)))){
+            diasDelMes = 29;
+            }
+
+            mihtml="<div class='contenedor'>";
+            for(dia=0;dia<=6;dia++){
+                mihtml+="<div class='dia'>"+diasSemana[dia]+"</div>";
+            }
+            for(i=1;i<=diasDelMes+diaSemana1-1;i++){//legamos hasta este valor porque (diaSemana1-1) son los huecos existentes antes del día 1
+                    if(i>(diaSemana1-1)){
+                        if(i-(diaSemana1-1)==diaHoy && mesHoy==mesActual && anyoHoy==anyoActual){
+                            mihtml+="<div class='hoy' id='capa"+i+"'></div>";
+                        }else{
+                            if(((i+1)%7)==0 || (i%7)==0){
+                                mihtml+="<div class='red' id='capa"+i+"'></div>";
+                            }else{
+                                mihtml+="<div class='cal' id='capa"+i+"'></div>";
+                            }
+                        }
+                    }else{
+                        mihtml+="<div class='gray'>&nbsp</div>";
+                    }
+            }
+            mihtml+="</div>";
+            document.getElementById("calendario").innerHTML=mihtml;
+            for(i=1;i<=diasDelMes;i++){
+                document.getElementById("capa"+(i+(diaSemana1-1))).innerHTML=i;
+            }
+	}
+    </script>
+    <body>
+        <div id="formulario" class="indice">
+                <a href="javascript:mesAnterior()" class="enlace enlace--mes--anterior"> << </a>
+                <form id="form1">
+                        <select name="mes" id="mes" class="formulario_select">
+                                <option value="0">Enero</option>
+                                <option value="1">Febrero</option>
+                                <option value="2">Marzo</option>
+                                <option value="3">Abril</option>
+                                <option value="4">Mayo</option>
+                                <option value="5">Junio</option>
+                                <option value="6">Julio</option>
+                                <option value="7">Agosto</option>
+                                <option value="8">Septiembre</option>
+                                <option value="9" selected="selected">Octubre</option>
+                                <option value="10">Noviembre</option>
+                                <option value="11">Diciembre</option>
+                        </select>
+                    <a href="javascript:mesPosterior()" class="enlace enlace--mes--posterior"> >> </a>
+                        <input type="text" id="anyo" value="2016" size="4">
+
+                </form>
+                
+                <input type="button" class="mostrar" value="Mostrar" onclick="sacarFecha()" align="center">
+
+        </div>
+        <br/> 
+        <div id="mesCalendario" align="center"></div>
+        <div id="calendario" align="center"></div>
+    </body>
+</html>

@@ -1,0 +1,65 @@
+.contenedor{
+    width: 350px;
+ }
+.cal,.red,.dia,.gray,.hoy{
+    width: 48px;
+    float: left;
+    border: 1px solid black;
+    padding: 15px 0;
+ }
+ .red{
+    background-color: red;
+    color: white;
+ }
+ .dia{
+    background-color: lightgreen;
+    color: black;
+ }
+ .gray{
+    background-color: lightgray;
+ }
+ .hoy{
+    background-color: blue;
+    color:white;
+ }
+ .enlace{
+     text-decoration: none;
+     font-size:25px;
+     color:gray;
+     display:inline-block;
+     width: 75px;
+ }
+ .enlace:hover{
+     color:lightsalmon;
+ }
+ .enlace--mes--anterior{
+     float:left;
+ }
+  .indice{
+     width: 350px;
+     margin: 0 auto;
+ }
+ #mes{
+     width: 80px;
+     float:left;
+     height:21px;
+ }
+ #anyo{
+     width: 80px;
+     float:right;
+     
+ }
+ .enlace--mes--posterior{
+     float:right;
+     text-align: right;
+ }
+ .mostrar{
+     width: 150px;
+     clear:both;
+     margin: 0 100px;
+     display:inline-block;
+ }
+ #mesCalendario{
+     font-size:20px;
+ }
+
