@@ -5,8 +5,8 @@
     float:left;
 }
 .saxo_imagen{
-    height: 300px;
-    width: 200px;
+    height: 250px;
+    width: 250px;
 }
 #muestra{
     clear:both;
@@ -14,7 +14,6 @@
 .boton__articulo{
     height: 30px;
     width: 80px;
+    margin: 0 5px;
 }
-#articulos_seleccionados{
-    
-}
+
