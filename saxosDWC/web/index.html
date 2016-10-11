@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="saxos.css"> 
+    </head>
+    <script>
+        function venta() {
+            
+        
+            var swExiste = false;
+            var objetoSelec = arguments[0];
+            imagenSaxo = objetoSelec.getElementsByTagName("img")[0];
+            parrafoCosteSaxo = objetoSelec.getElementsByTagName("p")[0];
+            costeSaxo = parrafoCosteSaxo.firstChild.nodeValue;
+                     
+            divCarrito = document.getElementById("articulos_seleccionados");
+            idNuevoArticulo="c_"+objetoSelec.id;
+            for (divSaxo = 0; divSaxo < divCarrito.getElementsByTagName("div").length; divSaxo++) {
+                if (idNuevoArticulo == divCarrito.getElementsByTagName("div")[divSaxo].id) {
+                    swExiste = true;
+                }
+            }
+                        
+            if(swExiste==true){
+                //cambiamos las unidades
+                saxoExistente = document.getElementById(idNuevoArticulo);
+                parrafoUnidades = saxoExistente.getElementsByTagName("p")[1];
+                unidadesExistentes = parseInt(parrafoUnidades.firstChild.nodeValue);
+                unidadesExistentes++;
+                parrafoUnidades.firstChild.nodeValue=unidadesExistentes;
+                
+                //cambiamos el total
+                posIgual = costeSaxo.indexOf(":");
+                posEuro = costeSaxo.indexOf("€");
+                precioSaxoCarrito = costeSaxo.slice(posIgual + 2, posEuro)*unidadesExistentes;
+                parrafoPrecioTotal = saxoExistente.getElementsByTagName("p")[2];
+                parrafoPrecioTotal.firstChild.nodeValue="Total: "+precioSaxoCarrito+"€";
+                               
+            }else{
+                
+                //creamos el div del Articulo
+                var divArticulo = document.createElement("div");
+                divArticulo.className = "saxo";
+                divArticulo.id = idNuevoArticulo;
+                
+                //creamos el div de la IMG
+                var imagenSaxoCarrito = document.createElement("img");
+                imagenSaxoCarrito.className = "saxo_imagen"
+                imagenSaxoCarrito.src = imagenSaxo.src;
+                divArticulo.appendChild(imagenSaxoCarrito);
+                
+                //creamos el div del Precio
+                var parrafoCosteSaxoCarrito = document.createElement("p");
+                costeSaxoCarrito = document.createTextNode(costeSaxo);
+                parrafoCosteSaxoCarrito.appendChild(costeSaxoCarrito);
+                divArticulo.appendChild(parrafoCosteSaxoCarrito);
+                
+                //creamos el div de las Unidades
+                var parrafoUnidades = document.createElement("p");
+                contenidoParrafoUnidades = document.createTextNode(1);
+                parrafoUnidades.appendChild(contenidoParrafoUnidades);
+                divArticulo.appendChild(parrafoUnidades);
+                
+                //creamos el div del Total
+                var parrafoPrecioTotal=document.createElement("p");
+                //sacamos el precio del saxofon
+                posIgual = costeSaxo.indexOf(":");
+                posEuro = costeSaxo.indexOf("€");
+                precioSaxoCarrito = costeSaxo.slice(posIgual + 2, posEuro);
+                //lo insertamos
+                contenidoParrafoPrecioTotal = document.createTextNode("Total: "+precioSaxoCarrito+"€");
+                parrafoPrecioTotal.appendChild(contenidoParrafoPrecioTotal);
+                divArticulo.appendChild(parrafoPrecioTotal);
+                
+                //creamos el button
+                var botonBorrar = document.createElement("button");
+                botonBorrar.value="1";
+                //botonBorrar.onclick=borrar();
+                botonBorrar.className="boton__articulo";
+                divArticulo.appendChild(botonBorrar);
+                
+                var quitarArticulo = document.createElement("button");
+                botonBorrar.value="2";
+                //botonBorrar.onclick=quitar(idNuevoArticulo,unidadesExistentes);
+                botonBorrar.className="boton__articulo";
+                divArticulo.appendChild(botonBorrar);
+                
+                //insertamos el articulo en el carrito
+                if (divCarrito.getElementsByTagName("div").length == 0) {
+                    divCarrito.appendChild(divArticulo);
+                } else {
+                    divAnt = divCarrito.getElementsByTagName("div")[0];
+                    divCarrito.insertBefore(divArticulo, divAnt);
+                }
+            }
+        }
+        
+        function borrar(id){
+            alert("Hola");
+            //divArticuloBorrar=document.getElementById(id);
+            //divCarrito.removeChild(divArticuloBorrar);
+        }
+        /*   
+           
+            /*var imagenSaxoCarrito = document.createElement("img");
+            imagenSaxoCarrito.className = "saxo_imagen"
+            imagenSaxoCarrito.src = imagenSaxo.src;
+            divArticulo.appendChild(imagenSaxoCarrito);
+
+            var parrafoCosteSaxoCarrito = document.createElement("p");
+            costeSaxoCarrito = document.createTextNode(costeSaxo);
+            parrafoCosteSaxoCarrito.appendChild(costeSaxoCarrito);
+            divArticulo.appendChild(parrafoCosteSaxoCarrito);
+
+            var parrafoUnidades = document.createElement("p");
+            for (divSaxo = 0; divSaxo < divCarrito.getElementsByTagName("div").length; divSaxo++) {
+                if (divArticulo.id == divCarrito.getElementsByTagName("div")[divSaxo].id) {
+                    swExiste = true;
+                }
+            }
+            if (swExiste == true) {
+                alert("Entro");
+                saxoExistente = document.getElementById(divArticulo.id);
+                parrafoUnidades = saxoExistente.getElementsByTagName("p")[1];
+                unidadesExistentes = parseInt(parrafoUnidades.firstChild.nodeValue);
+                unidadesActuales = unidadesExistentes+1;
+                alert(unidadesActuales);
+                parrafoUnidades.firstChild.nodeValue=unidadesActuales;
+            } else {
+                contenidoParrafoUnidades = document.createTextNode(1);
+                parrafoUnidades.appendChild(contenidoParrafoUnidades);
+                divArticulo.appendChild(parrafoUnidades);
+
+                //divCarrito.appendChild(divArticulo);
+                alert(divCarrito.childNodes.length);
+                if (divCarrito.getElementsByTagName("div").length == 0) {
+                    divCarrito.appendChild(divArticulo);
+                } else {
+                    divAnt = divCarrito.getElementsByTagName("div")[0];
+                    divCarrito.insertBefore(divArticulo, divAnt);
+                }
+            }
+        }*/
+        
+        
+        
+            /*posIgual = costeSaxo.indexOf(":");
+            posEuro = costeSaxo.indexOf("€");
+            precioSaxo = costeSaxo.slice(posIgual + 2, posEuro);
+            */
+    </script>
+    <body>
+        <div id="articulos_en_venta">
+            <div id="soprano" class="saxo" onclick="venta(this)"><!--venta(this) pasa todo el objeto-->
+                <img class="saxo_imagen" src="http://2.bp.blogspot.com/-ddQVwDoRAk0/TZTZCGACl8I/AAAAAAAAADg/2DcZTqFNClY/s1600/soprano.gif" />
+                <p> Precio: 2000€ </p>
+            </div>
+            <div id="alto" class="saxo" onclick="venta(this)">
+                <img class="saxo_imagen" src="http://www.riveramusica.com/imagenes/menguantes/grandes/11208AJ484_0.jpg" />
+                <p> Precio: 3500€ </p>
+            </div>
+            <div id="tenor" class="saxo" onclick="venta(this)">
+                <img class="saxo_imagen" src="http://www.saxoafons.com/382-777-thickbox/saxofon-tenor-selmer-mate-grabado.jpg" />
+                <p> Precio: 4000€ </p>
+            </div>
+            <div id="baritono" class="saxo" onclick="venta(this)">
+                <img class="saxo_imagen" src="http://www.casatejera.com/Foto_general.php?tabla=ARTICULOS&campo=Imagen&Codigo=381" />
+                <p> Precio: 5500€ </p>
+            </div>
+        </div>
+        <div id="muestra">AAAAA</div>
+        <div id="articulos_seleccionados"></div>
+    </body>
+</html>

@@ -1,0 +1,20 @@
+#articulos_en_venta{
+    display:block;
+}
+.saxo{
+    float:left;
+}
+.saxo_imagen{
+    height: 300px;
+    width: 200px;
+}
+#muestra{
+    clear:both;
+}
+.boton__articulo{
+    height: 30px;
+    width: 80px;
+}
+#articulos_seleccionados{
+    
+}
