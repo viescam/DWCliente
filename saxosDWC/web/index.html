@@ -82,7 +82,7 @@ and open the template in the editor.
                 contenidoBotonBorrar=document.createTextNode("Borrar");
                 botonBorrar.appendChild(contenidoBotonBorrar);
                 botonBorrar.onclick=function(){
-                    borrar(idNuevoArticulo);
+                    borrar(this);
                 }
                 botonBorrar.className="boton";
                 divArticulo.appendChild(botonBorrar);
@@ -91,7 +91,7 @@ and open the template in the editor.
                 contenidoQuitarArticulo=document.createTextNode("Quitar uno");
                 quitarArticulo.appendChild(contenidoQuitarArticulo);
                 quitarArticulo.onclick=function(){
-                    quitar(idNuevoArticulo,unidadesExistentes);
+                    quitar(this);
                 }
                 quitarArticulo.className="boton";
                 divArticulo.appendChild(quitarArticulo);
@@ -172,8 +172,8 @@ and open the template in the editor.
                 divCarrito.removeChild(divSaxo);
             }
         }
-        function borrar(id){
-            divArticuloBorrar=document.getElementById(id);
+        function borrar(botonBorrar){
+            divArticuloBorrar=botonBorrar.parentNode;
             divCarrito.removeChild(divArticuloBorrar);
             
              //recalculamos el precio total
@@ -181,8 +181,8 @@ and open the template in the editor.
             mostrarPrecioTotal(precioTotal)
         }
         
-        function quitar(id,unidades){
-            saxoAQuitar=document.getElementById(id);
+        function quitar(botonBorrar){
+            saxoAQuitar=botonBorrar.parentNode;
             parrafoUnidades = saxoAQuitar.getElementsByTagName("p")[1];
             contenidoParrafoUnidades=parrafoUnidades.firstChild.nodeValue;
             unidadesExistentes = parseInt(sacarPrecio(contenidoParrafoUnidades));
@@ -194,10 +194,11 @@ and open the template in the editor.
             parrafoPrecioTotal.firstChild.nodeValue="Total: "+(precioSaxoCarrito*unidadesExistentes)+"€";
             
             if(unidadesExistentes==0){
-                borrar(id);
+                borrar(botonBorrar);
             }
             //recalculamos el precio total
-            calcularPrecioTotal();
+            precioTotal=calcularPrecioTotal();
+            mostrarPrecioTotal(precioTotal)
         }
         
     </script>
