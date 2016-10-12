@@ -33,9 +33,10 @@ and open the template in the editor.
                 //cambiamos las unidades
                 saxoExistente = document.getElementById(idNuevoArticulo);
                 parrafoUnidades = saxoExistente.getElementsByTagName("p")[1];
-                unidadesExistentes = parseInt(parrafoUnidades.firstChild.nodeValue);
+                contenidoParrafoUnidades=parrafoUnidades.firstChild.nodeValue;
+                unidadesExistentes = parseInt(sacarPrecio(contenidoParrafoUnidades));
                 unidadesExistentes++;
-                parrafoUnidades.firstChild.nodeValue=unidadesExistentes;
+                parrafoUnidades.firstChild.nodeValue="Unidades: "+unidadesExistentes;
                 
                 //cambiamos el total
                 precioSaxoCarrito=sacarPrecio(costeSaxo);
@@ -64,7 +65,7 @@ and open the template in the editor.
                 //creamos el div de las Unidades
                 var parrafoUnidades = document.createElement("p");
                 unidadesExistentes=1;
-                contenidoParrafoUnidades = document.createTextNode(unidadesExistentes);
+                contenidoParrafoUnidades = document.createTextNode("Unidades: "+unidadesExistentes);
                 parrafoUnidades.appendChild(contenidoParrafoUnidades);
                 divArticulo.appendChild(parrafoUnidades);
                 
@@ -101,26 +102,28 @@ and open the template in the editor.
                 }
             }
             //para poner el precioTotal de la compra en medio
-            precioTotal=0;
+            precioTotal=calcularPrecioTotal();
+            /*precioTotal=0;
             for (numDivSaxo = 0; numDivSaxo < divCarrito.getElementsByTagName("div").length; numDivSaxo++) {
                 divSaxo=divCarrito.getElementsByTagName("div")[numDivSaxo];
                 parrafoCosteTotalSaxo=divSaxo.getElementsByTagName("p")[2];
                 costeTotalSaxo = parrafoCosteTotalSaxo.firstChild.nodeValue;               
                 precioTotalSaxo=parseInt(sacarPrecio(costeTotalSaxo));                
                 precioTotal+=precioTotalSaxo;
-            }
+            }*/
             if(document.getElementById("parrafoCosteTotal")){//comprobamos si existe un elemento con esta ID
                 parrafoCosteTotal=document.getElementById("parrafoCosteTotal");
                 parrafoCosteTotal.firstChild.nodeValue="Coste total: "+precioTotal+"€";
             }else{
                 divPrecioTotal=document.getElementById("coste__total");
                 parrafoCosteTotal=document.createElement("p");
-                parrafoCosteTotal.id="parrafoCosteTotal";
+                parrafoCosteTotal.id="parrafoCosteTotal";//le asignamos un ID, para poder comprobar su existencia
                 contenidoCosteTotal=document.createTextNode("Coste total: "+precioTotal+"€");
                 parrafoCosteTotal.appendChild(contenidoCosteTotal);
                 divPrecioTotal.appendChild(parrafoCosteTotal);
                 
                 //para crear el boton de "Borrar Todo"
+                //se incluye en el Else porque solo tiene sentido crearlo cuando se cree por primera vez el parrafo
                 var botonBorrarTodo = document.createElement("button");
                 contenidoBotonBorrarTodo=document.createTextNode("Borrar Todo");
                 botonBorrarTodo.appendChild(contenidoBotonBorrarTodo);
@@ -132,11 +135,26 @@ and open the template in the editor.
             
         }
         
+        function calcularPrecioTotal(){
+            precioTotal=0;
+            for (numDivSaxo = 0; numDivSaxo < divCarrito.getElementsByTagName("div").length; numDivSaxo++) {
+                divSaxo=divCarrito.getElementsByTagName("div")[numDivSaxo];
+                parrafoCosteTotalSaxo=divSaxo.getElementsByTagName("p")[2];
+                costeTotalSaxo = parrafoCosteTotalSaxo.firstChild.nodeValue;               
+                precioTotalSaxo=parseInt(sacarPrecio(costeTotalSaxo));                
+                precioTotal+=precioTotalSaxo;
+            }
+            return precioTotal;
+        }
+        
         function sacarPrecio(coste){
             posIgual = coste.indexOf(":");
             posEuro = coste.indexOf("€");
-            precioSaxoCarrito = coste.slice(posIgual + 2, posEuro);
-            
+            if(posEuro==-1){//cuando empleamos el metodo para extraer las unidades
+                 precioSaxoCarrito=coste.slice(posIgual+2);
+            }else{
+                precioSaxoCarrito = coste.slice(posIgual + 2, posEuro);
+            }
             return precioSaxoCarrito;
         }
         function borrar(id){

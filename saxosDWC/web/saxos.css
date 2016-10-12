@@ -7,24 +7,28 @@
 .saxo{
     float:left;
     border: 1px solid red;
-    width:250px;
+    width:150px;
     text-align: center;
+    padding: 5px 0;
 }
 .saxo--carrito{
     border: 1px solid black;
 }
 .saxo_imagen{
-    height: 375px;
-    width: 140px;
+    height: 180px;
+    width: 67px;
     display:inline-block;
     margin: 0 auto;
 }
 #coste__total{
     clear:both;
-    padding: 10px;
+    padding: 2px;
+    /*background-color: green;*/
 }
 .boton{
-   padding:3px 5px;
-   margin: 0 5px 10px 0;
+   padding:1px 3px;
+   margin: 0 2px 5px 0;
+   font-size:12px;
 }
+
 
