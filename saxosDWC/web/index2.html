@@ -13,7 +13,8 @@ and open the template in the editor.
     </head>
     <script>
         function venta() {
-                   
+            
+        
             var swExiste = false;
             var objetoSelec = arguments[0];
             imagenSaxo = objetoSelec.getElementsByTagName("img")[0];
@@ -106,11 +107,33 @@ and open the template in the editor.
             }
             //para poner el precioTotal de la compra en medio
             precioTotal=calcularPrecioTotal();
-            mostrarPrecioTotal(precioTotal);
+            
+            if(document.getElementById("parrafoCosteTotal")){//comprobamos si existe un elemento con esta ID
+                parrafoCosteTotal=document.getElementById("parrafoCosteTotal");
+                parrafoCosteTotal.firstChild.nodeValue="Coste total: "+precioTotal+"€";
+            }else{
+                divPrecioTotal=document.getElementById("coste__total");
+                parrafoCosteTotal=document.createElement("p");
+                parrafoCosteTotal.id="parrafoCosteTotal";//le asignamos un ID, para poder comprobar su existencia
+                contenidoCosteTotal=document.createTextNode("Coste total: "+precioTotal+"€");
+                parrafoCosteTotal.appendChild(contenidoCosteTotal);
+                divPrecioTotal.appendChild(parrafoCosteTotal);
+                
+                //para crear el boton de "Borrar Todo"
+                //se incluye en el Else porque solo tiene sentido crearlo cuando se cree por primera vez el parrafo
+                var botonBorrarTodo = document.createElement("button");
+                contenidoBotonBorrarTodo=document.createTextNode("Borrar Todo");
+                botonBorrarTodo.appendChild(contenidoBotonBorrarTodo);
+                //botonBorrar.onclick=borrar(idNuevoArticulo);
+                botonBorrarTodo.className="boton";
+                divPrecioTotal.appendChild(botonBorrarTodo);
+            }
+            
             
         }
         
         function calcularPrecioTotal(){
+            alert("Hola");
             precioTotal=0;
             
             for (numDivSaxo = 0; numDivSaxo < divCarrito.getElementsByTagName("div").length; numDivSaxo++) {
@@ -123,36 +146,6 @@ and open the template in the editor.
             return precioTotal;
         }
         
-        function mostrarPrecioTotal(precioTotal){
-            if (precioTotal==0){
-                divPrecioTotal.removeChild(parrafoCosteTotal);
-                divPrecioTotal.removeChild(botonBorrarTodo);
-            }else{
-                if(document.getElementById("parrafoCosteTotal")){//comprobamos si existe un elemento con esta ID
-                   parrafoCosteTotal=document.getElementById("parrafoCosteTotal");
-                   parrafoCosteTotal.firstChild.nodeValue="Coste total: "+precioTotal+"€";
-               }else{
-                   divPrecioTotal=document.getElementById("coste__total");
-                   parrafoCosteTotal=document.createElement("p");
-                   parrafoCosteTotal.id="parrafoCosteTotal";//le asignamos un ID, para poder comprobar su existencia
-                   contenidoCosteTotal=document.createTextNode("Coste total: "+precioTotal+"€");
-                   parrafoCosteTotal.appendChild(contenidoCosteTotal);
-                   divPrecioTotal.appendChild(parrafoCosteTotal);
-
-                   //para crear el boton de "Borrar Todo"
-                   //se incluye en el Else porque solo tiene sentido crearlo cuando se cree por primera vez el parrafo
-                   botonBorrarTodo = document.createElement("button");
-                   contenidoBotonBorrarTodo=document.createTextNode("Borrar Todo");
-                   botonBorrarTodo.appendChild(contenidoBotonBorrarTodo);
-                   botonBorrarTodo.onclick=function(){
-                       borrarTodo();
-                   }
-                   botonBorrarTodo.className="boton";
-                   divPrecioTotal.appendChild(botonBorrarTodo);
-               }
-           }
-        }
-        
         function sacarPrecio(coste){
             posIgual = coste.indexOf(":");
             posEuro = coste.indexOf("€");
@@ -163,22 +156,12 @@ and open the template in the editor.
             }
             return precioSaxoCarrito;
         }
-        
-        function borrarTodo(){
-            divPrecioTotal.removeChild(parrafoCosteTotal);
-            divPrecioTotal.removeChild(botonBorrarTodo);
-            while(divCarrito.getElementsByTagName("div").length>0){
-                divSaxo=divCarrito.getElementsByTagName("div")[0];
-                divCarrito.removeChild(divSaxo);
-            }
-        }
         function borrar(id){
             divArticuloBorrar=document.getElementById(id);
             divCarrito.removeChild(divArticuloBorrar);
             
              //recalculamos el precio total
-            precioTotal=calcularPrecioTotal();
-            mostrarPrecioTotal(precioTotal)
+            calcularPrecioTotal();
         }
         
         function quitar(id,unidades){
@@ -193,9 +176,6 @@ and open the template in the editor.
             parrafoPrecioTotal = saxoAQuitar.getElementsByTagName("p")[2];
             parrafoPrecioTotal.firstChild.nodeValue="Total: "+(precioSaxoCarrito*unidadesExistentes)+"€";
             
-            if(unidadesExistentes==0){
-                borrar(id);
-            }
             //recalculamos el precio total
             calcularPrecioTotal();
         }
