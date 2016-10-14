@@ -1,4 +1,4 @@
-*{
+html{
     box-sizing: border-box;
 }
 #articulos_en_venta{
@@ -10,9 +10,17 @@
     width:150px;
     text-align: center;
     padding: 5px 0;
+    box-sizing: border-box;
 }
 .saxo--carrito{
     border: 1px solid black;
+    height: 350px;
+}
+.saxo--carrito--seleccionado{
+    border: 5px solid blue;
+}
+.saxo--carrito--seleccionado p{
+    font-weight:bold;
 }
 .saxo_imagen{
     height: 180px;

@@ -12,6 +12,7 @@ and open the template in the editor.
         <link rel="stylesheet" type="text/css" href="saxos.css"> 
     </head>
     <script>
+        precioTotal=0;
         function venta() {
                    
             var swExiste = false;
@@ -22,27 +23,8 @@ and open the template in the editor.
                      
             divCarrito = document.getElementById("articulos_seleccionados");
             idNuevoArticulo="c_"+objetoSelec.id;
-            for (numDivSaxo = 0; numDivSaxo < divCarrito.getElementsByTagName("div").length; numDivSaxo++) {
-                if (idNuevoArticulo == divCarrito.getElementsByTagName("div")[numDivSaxo].id) {
-                    swExiste = true;
-                }
-            }
-                        
-            if(swExiste==true){
-                //cambiamos las unidades
-                saxoExistente = document.getElementById(idNuevoArticulo);
-                parrafoUnidades = saxoExistente.getElementsByTagName("p")[1];
-                contenidoParrafoUnidades=parrafoUnidades.firstChild.nodeValue;
-                unidadesExistentes = parseInt(sacarPrecio(contenidoParrafoUnidades));
-                unidadesExistentes++;
-                parrafoUnidades.firstChild.nodeValue="Unidades: "+unidadesExistentes;
-                
-                //cambiamos el total
-                precioSaxoCarrito=sacarPrecio(costeSaxo);
-                parrafoPrecioTotal = saxoExistente.getElementsByTagName("p")[2];
-                parrafoPrecioTotal.firstChild.nodeValue="Total: "+(precioSaxoCarrito*unidadesExistentes)+"€";
-                               
-            }else{
+                                    
+            if(document.getElementById(idNuevoArticulo)===null){//si no existe
                 
                 //creamos el div del Articulo
                 var divArticulo = document.createElement("div");
@@ -78,22 +60,20 @@ and open the template in the editor.
                 divArticulo.appendChild(parrafoPrecioTotal);
                 
                 //creamos el button
-                var botonBorrar = document.createElement("button");
-                contenidoBotonBorrar=document.createTextNode("Borrar");
-                botonBorrar.appendChild(contenidoBotonBorrar);
-                botonBorrar.onclick=function(){
-                    borrar(this);
-                }
+                var botonBorrar = document.createElement("input");
+                botonBorrar.type="button";
+                botonBorrar.value="Borrar";//texto que aparece en el boton
+                botonBorrar.name="botonBorrar";//nombre del button
                 botonBorrar.className="boton";
+                botonBorrar.onclick=borrar;//llamada a la funcion                      
                 divArticulo.appendChild(botonBorrar);
                 
-                var quitarArticulo = document.createElement("button");
-                contenidoQuitarArticulo=document.createTextNode("Quitar uno");
-                quitarArticulo.appendChild(contenidoQuitarArticulo);
-                quitarArticulo.onclick=function(){
-                    quitar(this);
-                }
+                var quitarArticulo = document.createElement("input");
+                quitarArticulo.type="button";
+                quitarArticulo.value="Quitar uno";
+                quitarArticulo.name="quitarArticulo";
                 quitarArticulo.className="boton";
+                quitarArticulo.onclick=quitar;//llamada a la funcion  
                 divArticulo.appendChild(quitarArticulo);
                 
                 //insertamos el articulo en el carrito
@@ -103,9 +83,27 @@ and open the template in the editor.
                     divAnt = divCarrito.getElementsByTagName("div")[0];
                     divCarrito.insertBefore(divArticulo, divAnt);
                 }
+                                               
+            }else{
+                
+                //cambiamos las unidades
+                saxoExistente = document.getElementById(idNuevoArticulo);
+                parrafoUnidades = saxoExistente.getElementsByTagName("p")[1];
+                contenidoParrafoUnidades=parrafoUnidades.firstChild.nodeValue;
+                unidadesExistentes = parseInt(sacarPrecio(contenidoParrafoUnidades));
+                unidadesExistentes++;
+                parrafoUnidades.firstChild.nodeValue="Unidades: "+unidadesExistentes;
+                
+                //cambiamos el total
+                precioSaxoCarrito=sacarPrecio(costeSaxo);
+                parrafoPrecioTotal = saxoExistente.getElementsByTagName("p")[2];
+                parrafoPrecioTotal.firstChild.nodeValue="Total: "+(precioSaxoCarrito*unidadesExistentes)+"€";
+                
             }
             //para poner el precioTotal de la compra en medio
-            precioTotal=calcularPrecioTotal();
+            //precioTotal=calcularPrecioTotal();
+            //alert("hola");
+            precioTotal+=parseInt(precioSaxoCarrito);
             mostrarPrecioTotal(precioTotal);
             
         }
@@ -124,6 +122,7 @@ and open the template in the editor.
         }
         
         function mostrarPrecioTotal(precioTotal){
+            //alert(precioTotal);
             if (precioTotal==0){
                 divPrecioTotal.removeChild(parrafoCosteTotal);
                 divPrecioTotal.removeChild(botonBorrarTodo);
@@ -141,12 +140,12 @@ and open the template in the editor.
 
                    //para crear el boton de "Borrar Todo"
                    //se incluye en el Else porque solo tiene sentido crearlo cuando se cree por primera vez el parrafo
-                   botonBorrarTodo = document.createElement("button");
-                   contenidoBotonBorrarTodo=document.createTextNode("Borrar Todo");
-                   botonBorrarTodo.appendChild(contenidoBotonBorrarTodo);
-                   botonBorrarTodo.onclick=function(){
-                       borrarTodo();
-                   }
+                   botonBorrarTodo = document.createElement("input");
+                   botonBorrarTodo.type="button";
+                   botonBorrarTodo.value="Borrar Todo";
+                   botonBorrarTodo.name="botonBorrarTodo";
+                   botonBorrarTodo.className="boton";
+                   botonBorrarTodo.onclick=borrarTodo;//llamada a la funcion  
                    botonBorrarTodo.className="boton";
                    divPrecioTotal.appendChild(botonBorrarTodo);
                }
@@ -167,22 +166,19 @@ and open the template in the editor.
         function borrarTodo(){
             divPrecioTotal.removeChild(parrafoCosteTotal);
             divPrecioTotal.removeChild(botonBorrarTodo);
-            while(divCarrito.getElementsByTagName("div").length>0){
-                divSaxo=divCarrito.getElementsByTagName("div")[0];
-                divCarrito.removeChild(divSaxo);
-            }
-        }
-        function borrar(botonBorrar){
-            divArticuloBorrar=botonBorrar.parentNode;
-            divCarrito.removeChild(divArticuloBorrar);
+            document.body.removeChild(divCarrito);
             
-             //recalculamos el precio total
+        }
+        function borrar(){
+            divArticuloBorrar=this.parentNode;
+            divCarrito.removeChild(divArticuloBorrar);
+            //recalculamos el precio total
             precioTotal=calcularPrecioTotal();
             mostrarPrecioTotal(precioTotal)
         }
-        
-        function quitar(botonBorrar){
-            saxoAQuitar=botonBorrar.parentNode;
+                
+        function quitar(){
+            saxoAQuitar=this.parentNode;
             parrafoUnidades = saxoAQuitar.getElementsByTagName("p")[1];
             contenidoParrafoUnidades=parrafoUnidades.firstChild.nodeValue;
             unidadesExistentes = parseInt(sacarPrecio(contenidoParrafoUnidades));
@@ -193,32 +189,45 @@ and open the template in the editor.
             parrafoPrecioTotal = saxoAQuitar.getElementsByTagName("p")[2];
             parrafoPrecioTotal.firstChild.nodeValue="Total: "+(precioSaxoCarrito*unidadesExistentes)+"€";
             
-            if(unidadesExistentes==0){
-                borrar(botonBorrar);
+            if(unidadesExistentes===0){
+                document.getElementById("articulos_seleccionados").removeChild(saxoAQuitar);                
             }
             //recalculamos el precio total
             precioTotal=calcularPrecioTotal();
             mostrarPrecioTotal(precioTotal)
         }
+        function marcar(){
+            var objetoSelec = arguments[0];
+            idNuevoArticulo="c_"+objetoSelec.id;
+            divNuevoArticulo = document.getElementById(idNuevoArticulo);
+            divNuevoArticulo.className="saxo saxo--carrito saxo--carrito--seleccionado";
+        }
+        function quitarMarcado(){
+            var objetoSelec = arguments[0];
+            idNuevoArticulo="c_"+objetoSelec.id;
+            divNuevoArituclo = document.getElementById(idNuevoArticulo);
+            divNuevoArticulo.className="saxo saxo--carrito";
+        }
+        
         
     </script>
     <body>
         <div id="articulos_en_venta">
-            <div id="soprano" class="saxo" onclick="venta(this)"><!--venta(this) pasa todo el objeto-->
+            <div id="soprano" class="saxo" onclick="venta(this)" onmouseover="marcar(this)" onmouseout="quitarMarcado(this)"><!--venta(this) pasa todo el objeto-->
                 <img class="saxo_imagen" src="https://www.thomann.de/pics/bdb/154054/10902967_800.jpg" />
                 <p> Precio: 2000€ </p>
             </div>
-            <div id="alto" class="saxo" onclick="venta(this)">
+            <div id="alto" class="saxo" onclick="venta(this)" onmouseover="marcar(this)" onmouseout="quitarMarcado(this)">
                 <img class="saxo_imagen" src="https://www.thomann.de/pics/bdb/334488/8716476_800.jpg" />
                 <p> Precio: 3500€ </p>
             </div>
-            <div id="tenor" class="saxo" onclick="venta(this)">
+            <div id="tenor" class="saxo" onclick="venta(this)" onmouseover="marcar(this)" onmouseout="quitarMarcado(this)" >
                 <img class="saxo_imagen" src="https://www.thomann.de/pics/bdb/365456/10041563_800.jpg" />
-                <p> Precio: 4000€ </p>
+                <p> Precio: 5000€ </p>
             </div>
-            <div id="baritono" class="saxo" onclick="venta(this)">
+            <div id="baritono" class="saxo" onclick="venta(this)" onmouseover="marcar(this)" onmouseout="quitarMarcado(this)">
                 <img class="saxo_imagen" src="https://www.thomann.de/pics/prod/190487.jpg" />
-                <p> Precio: 5500€ </p>
+                <p> Precio: 8000€ </p>
             </div>
         </div>
         <div id="coste__total"></div>
