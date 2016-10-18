@@ -101,36 +101,24 @@ and open the template in the editor.
                 
             }
             //para poner el precioTotal de la compra en medio
-            //precioTotal=calcularPrecioTotal();
-            //alert("hola");
             precioTotal+=parseInt(precioSaxoCarrito);
             mostrarPrecioTotal(precioTotal);
             
         }
         
-        function calcularPrecioTotal(){
-            precioTotal=0;
-            
-            for (numDivSaxo = 0; numDivSaxo < divCarrito.getElementsByTagName("div").length; numDivSaxo++) {
-                divSaxo=divCarrito.getElementsByTagName("div")[numDivSaxo];
-                parrafoCosteTotalSaxo=divSaxo.getElementsByTagName("p")[2];
-                costeTotalSaxo = parrafoCosteTotalSaxo.firstChild.nodeValue;               
-                precioTotalSaxo=parseInt(sacarPrecio(costeTotalSaxo));                
-                precioTotal+=precioTotalSaxo;
-            }
-            return precioTotal;
-        }
-        
         function mostrarPrecioTotal(precioTotal){
             //alert(precioTotal);
             if (precioTotal==0){
+                //eliminamos el contenido del DIV intermedio
                 divPrecioTotal.removeChild(parrafoCosteTotal);
                 divPrecioTotal.removeChild(botonBorrarTodo);
             }else{
                 if(document.getElementById("parrafoCosteTotal")){//comprobamos si existe un elemento con esta ID
+                   //actualizamos los datos del articulo
                    parrafoCosteTotal=document.getElementById("parrafoCosteTotal");
                    parrafoCosteTotal.firstChild.nodeValue="Coste total: "+precioTotal+"€";
                }else{
+                   //creamos el elemento con esa ID
                    divPrecioTotal=document.getElementById("coste__total");
                    parrafoCosteTotal=document.createElement("p");
                    parrafoCosteTotal.id="parrafoCosteTotal";//le asignamos un ID, para poder comprobar su existencia
@@ -171,9 +159,10 @@ and open the template in the editor.
         }
         function borrar(){
             divArticuloBorrar=this.parentNode;
+            precioRestarDelTotal = parseInt(sacarPrecio(divArticuloBorrar.getElementsByTagName("p")[2].firstChild.nodeValue));
             divCarrito.removeChild(divArticuloBorrar);
             //recalculamos el precio total
-            precioTotal=calcularPrecioTotal();
+            precioTotal-=precioRestarDelTotal;
             mostrarPrecioTotal(precioTotal)
         }
                 
@@ -193,7 +182,7 @@ and open the template in the editor.
                 document.getElementById("articulos_seleccionados").removeChild(saxoAQuitar);                
             }
             //recalculamos el precio total
-            precioTotal=calcularPrecioTotal();
+            precioTotal-=precioSaxoCarrito;
             mostrarPrecioTotal(precioTotal)
         }
         function marcar(){
