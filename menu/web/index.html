@@ -13,6 +13,14 @@ and open the template in the editor.
     </head>
     <script>
         function calcularTotal(){
+            var platos = document.getElementsByName("plato");
+            precioTotal=0;
+            for(i=0;i<platos.length;i++){
+                if(platos[i].checked){
+                    precioTotal+=parseFloat(platos[i].value.split(";")[1]);
+                }
+            }
+            document.getElementById("total").value=precioTotal+"€";
             
         }
         
@@ -20,12 +28,14 @@ and open the template in the editor.
     
     <body>
         <img src="http://media.conmuchagula.es/2015/03/croquetasdejamonyqueso.jpg"></img>&nbsp;&nbsp;
-        <input type="checkbox" name="plato" value="Croquetas;3.50"/>Croquetas 3,50€<br>
+        <input type="checkbox" name="plato" value="croquetas;3.50"/>Croquetas 3,50€<br>
         <img src="http://www.elpolloandaluz.net/imagen/articulo/1356572466-245.jpg"></img>&nbsp;&nbsp;
-        <input type="checkbox" name="plato" value="Patatas Bravas;2.75"/>Croquetas 2,75€<br>
+        <input type="checkbox" name="plato" value="bravas;2.75"/>Patatas Bravas 2,75€<br>
         <img src="http://www.recetaalbondigas.com/ImagenesAlbondigas/ImagenesAlbondigas/Albondigascontomate.jpg"></img>&nbsp;&nbsp;
-        <input type="checkbox" name="plato" value="Albondigas;3"/>Albondigas 3,00€<br>
+        <input type="checkbox" name="plato" value="albondigas;3"/>Albondigas 3,00€<br>
         <img src="http://student-food.com/wp-content/uploads/nachos2.jpg"></img>&nbsp;&nbsp;
-        <input type="checkbox" name="plato" value="Nachos;4"/>Nachos 4,00€<br>
+        <input type="checkbox" name="plato" value="nachos;4"/>Nachos 4,00€<br>
+        <input type="button" onclick="calcularTotal()" value="Calcular Total"/>
+        <input type="text" id="total" />
     </body>
 </html>
