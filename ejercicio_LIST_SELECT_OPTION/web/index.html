@@ -25,6 +25,46 @@ and open the template in the editor.
             lista=document.getElementById(idLista);
             alert(lista.length);
         }
+        function anyadirElemento(idLista,tipo){
+            lista=document.getElementById(idLista);
+            nodoBefore=null;
+            if(tipo===1){
+                pos=document.getElementById("posicionA").value;
+                nodoBefore=lista.options[pos];
+            }
+            
+            nuevoNodo=document.createElement("option");
+            contenidoNuevoNodo=document.getElementById("elemento"+tipo).value;
+            nuevoNodo.value=contenidoNuevoNodo;
+            nuevoNodo.text=contenidoNuevoNodo;
+            lista.add(nuevoNodo, nodoBefore);
+        }
+        function borrarElemento(idLista,tipo){
+            lista=document.getElementById(idLista);
+            posBorrar=lista.selectedIndex;
+            if(tipo===1){
+                posBorrar=document.getElementById("posicionB").value;
+            }
+            
+            lista.remove(posBorrar);
+        }
+        function vaciarLista(idLista){
+            lista=document.getElementById(idLista);
+            while(lista.length>0){
+                lista.remove(0);
+            }
+        }
+        function trasladar(idListaO,idListaD){
+            listaO=document.getElementById(idListaO);
+            listaD=document.getElementById(idListaD);
+            posTrasladar=listaO.selectedIndex;
+            if(listaO.selectedIndex===-1){//si no hay ninguno marcado, traslada el primero
+                posTrasladar=0;
+            }
+            optionTrasladar=listaO.options[posTrasladar];
+            listaO.remove(posTrasladar);
+            listaD.add(optionTrasladar,null);
+        }
     </script>    
     <body>
         <select id="listaLetras" size="10" style="padding:0 15px">
@@ -34,8 +74,8 @@ and open the template in the editor.
             <option value="d">d</option>
             <option value="e">e</option>
         </select>
-        <input type="button" value="<--">
-        <input type="button" value="-->">
+        <input type="button" value="<--" onclick=trasladar("listaNumeros","listaLetras")>
+        <input type="button" value="-->" onclick=trasladar("listaLetras","listaNumeros")>
         <select id="listaNumeros" size="10" style="padding:0 15px"> 
             <option value="1">1</option>
             <option value="2">2</option>
@@ -46,9 +86,9 @@ and open the template in the editor.
         <br>
         <input type="button" onclick=mostrarLista("listaLetras") value="Ver Lista"/><br>
         <input type="button" onclick=numeroElementos("listaLetras") value="Nº de Elementos"/><br>
-        <input type="button" onclick=añadirElemento("listaLetras",0) value="Añadir Elemento"/><input type="text" id="elemento0" size="5"><br>
-        <input type="button" onclick=añadirElemento("listaLetras",1) value="Añadir Elemento"/><input type="text" id="elemento1" size="5">Posicion<input type="text" id="posicionA" size="3"><br>
-        <input type="button" onclick=borrarElemento("listaLetras",0) value="Borrar Elemento"/><br>
+        <input type="button" onclick=anyadirElemento("listaLetras",0) value="Añadir Elemento"/><input type="text" id="elemento0" size="5"><br>
+        <input type="button" onclick=anyadirElemento("listaLetras",1) value="Añadir Elemento"/><input type="text" id="elemento1" size="5">Posicion<input type="text" id="posicionA" size="3"><br>
+        <input type="button" onclick=borrarElemento("listaLetras",0) value="Borrar Seleccionado"/><br>
         <input type="button" onclick=borrarElemento("listaLetras",1) value="Borrar Elemento"/>Posicion<input type="text" id="posicionB" size="3"><br>
         <input type="button" onclick=vaciarLista("listaLetras") value="Vaciar Lista"/><br>
     </body>
