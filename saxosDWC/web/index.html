@@ -152,9 +152,13 @@ and open the template in the editor.
         }
         
         function borrarTodo(){
+            while(divCarrito.getElementsByTagName("div").length>0){
+                divArticuloABorrar=divCarrito.getElementsByTagName("div")[0];
+                divCarrito.removeChild(divArticuloABorrar);
+            }
             divPrecioTotal.removeChild(parrafoCosteTotal);
             divPrecioTotal.removeChild(botonBorrarTodo);
-            document.body.removeChild(divCarrito);
+            
             
         }
         function borrar(){
