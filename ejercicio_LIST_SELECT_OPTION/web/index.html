@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <script>
+        function mostrarLista(idLista){
+            
+            lista=document.getElementById(idLista);
+            textoMuestra="";
+            for(i=0;i<lista.length;i++){
+                textoMuestra+=lista.options[i].value+" ";
+            }
+            alert(textoMuestra);
+        }
+        function numeroElementos(idLista){
+            
+            lista=document.getElementById(idLista);
+            alert(lista.length);
+        }
+    </script>    
+    <body>
+        <select id="listaLetras" size="10" style="padding:0 15px">
+            <option value="a">a</option>
+            <option value="b">b</option>
+            <option value="c">c</option>
+            <option value="d">d</option>
+            <option value="e">e</option>
+        </select>
+        <input type="button" value="<--">
+        <input type="button" value="-->">
+        <select id="listaNumeros" size="10" style="padding:0 15px"> 
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <br>
+        <input type="button" onclick=mostrarLista("listaLetras") value="Ver Lista"/><br>
+        <input type="button" onclick=numeroElementos("listaLetras") value="Nº de Elementos"/><br>
+        <input type="button" onclick=añadirElemento("listaLetras",0) value="Añadir Elemento"/><input type="text" id="elemento0" size="5"><br>
+        <input type="button" onclick=añadirElemento("listaLetras",1) value="Añadir Elemento"/><input type="text" id="elemento1" size="5">Posicion<input type="text" id="posicionA" size="3"><br>
+        <input type="button" onclick=borrarElemento("listaLetras",0) value="Borrar Elemento"/><br>
+        <input type="button" onclick=borrarElemento("listaLetras",1) value="Borrar Elemento"/>Posicion<input type="text" id="posicionB" size="3"><br>
+        <input type="button" onclick=vaciarLista("listaLetras") value="Vaciar Lista"/><br>
+    </body>
+</html>
