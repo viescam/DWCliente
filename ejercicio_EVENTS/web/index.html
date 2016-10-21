@@ -12,7 +12,7 @@ and open the template in the editor.
         <link rel="stylesheet" type="text/css" href="index.css"> 
     </head>
     <script>
-        function cargarPagina() {       
+        window.onload=function() {       
             capas=document.getElementsByClassName("div_inicial");
             for(i=0;i<capas.length;i++){
                 capas[i].onmouseover=resalta;
@@ -33,7 +33,7 @@ and open the template in the editor.
             }                                  
         }       
     </script>
-    <body onload=cargarPagina()>
+    <body>
         <div class="div_inicial">
           Sección de contenidos 1
         </div>
