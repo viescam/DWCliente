@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Listas</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="index.css"> 
+    </head>
+    <script>
+        function cargarPagina() {       
+            capas=document.getElementsByClassName("div_inicial");
+            for(i=0;i<capas.length;i++){
+                capas[i].onmouseover=resalta;
+                capas[i].onmouseout=resalta;
+            }
+            capas2=document.getElementsByClassName("div2_inicial");
+            for(j=0;j<capas2.length;j++){
+                capas2[j].addEventListener("mouseover",resalta,true);
+                capas2[j].addEventListener("mouseout",resalta,true);
+            }            
+        }        
+        function resalta(){
+            switch(this.className){
+                case "div_inicial": this.className="div_modificado";break;
+                case "div_modificado": this.className="div_inicial";break;
+                case "div2_inicial": this.className="div2_modificado";break;
+                case "div2_modificado": this.className="div2_inicial";break;
+            }                                  
+        }       
+    </script>
+    <body onload=cargarPagina()>
+        <div class="div_inicial">
+          Sección de contenidos 1
+        </div>
+        <div class="div_inicial">
+          Sección de contenidos 2
+        </div>
+        <div class="div2_inicial">
+          Sección de contenidos 3
+        </div>
+        <div class="div2_inicial">
+          Sección de contenidos 4
+        </div>
+    <body>
+</html>
