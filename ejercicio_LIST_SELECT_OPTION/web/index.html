@@ -50,9 +50,10 @@ and open the template in the editor.
         }
         function vaciarLista(idLista){
             lista=document.getElementById(idLista);
-            while(lista.length>0){
+            /*while(lista.length>0){
                 lista.remove(0);
-            }
+            }*/
+            lista.length=0;
         }
         function trasladar(idListaO,idListaD){
             listaO=document.getElementById(idListaO);
@@ -63,7 +64,7 @@ and open the template in the editor.
             }
             optionTrasladar=listaO.options[posTrasladar];
             listaO.remove(posTrasladar);
-            listaD.add(optionTrasladar,null);
+            listaD.add(optionTrasladar);
         }
     </script>    
     <body>
