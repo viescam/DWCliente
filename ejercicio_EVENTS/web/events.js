@@ -6,8 +6,8 @@ window.onload=function() {
     }
     capas2=document.getElementsByClassName("div2_inicial");
     for(j=0;j<capas2.length;j++){
-        capas2[j].addEventListener("mouseover",resalta,true);
-        capas2[j].addEventListener("mouseout",resalta,true);
+        capas2[j].addEventListener("mouseover",resalta,false);
+        capas2[j].addEventListener("mouseout",resalta,false);
     }            
 }        
 function resalta(){
