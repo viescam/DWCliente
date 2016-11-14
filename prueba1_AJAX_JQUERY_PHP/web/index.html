@@ -13,21 +13,22 @@ and open the template in the editor.
         <script language="javascript" type="text/javascript">
             $(document).ready(function() {
                 $('.boton1').click( function(){
-                    alert("hola");
                     $.ajax({
                         url: 'cliente.php',
                         dataType: 'json',
                         success: function(datos){
-                            $('.resultados').html('<h1>Hola '+datos.nombre+'</h1><h2>Tus datos son:</h2>Codigo = ' + datos.codigo + '<br>Nombre = ' + datos.nombre + '<br>Edad = ' + datos.edad);
+                            //$('#resultados').html('<h1>Hola '+datos.nombre+'</h1><h2>Tus datos son:</h2>Codigo = ' + datos.codigo + '<br>Nombre = ' + datos.nombre + '<br>Edad = ' + datos.edad);
+                            $('body').append('<h1>'+datos.nombre+'</h1>');
+                            $('<h2>Tus datos son</h2>').appendTo('body');
+                            $('<div>Codigo = ' + datos.codigo + '<br>Nombre = ' + datos.nombre + '<br>Edad = ' + datos.edad+'</div>').appendTo('body');
                         }
                     });
                 });
             });
         </script>
-            
     </head>
     <body>
         <button class="boton1">Boton</button>
-        <div class="resultados" ></div>
+        <div id="resultados" ></div>
     </body>
 </html>
