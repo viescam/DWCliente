@@ -1,0 +1,101 @@
+<html>
+    <head>
+            <style>
+                    .ingrediente{position:absolute; top:150px; left:400px}
+            </style>
+
+            <script>
+
+                ingredientes=["champis","salami","olivas", "huevo"];
+                precios=[1,2,3,4];
+                precioPizzaNueva=10;
+                window.onload=function(){
+                    
+                    aNuevaPizza=document.getElementsByTagName("a")[0];
+                    aNuevaPizza.href="javascript:nuevaPizza()"
+                    
+                    divPizza=document.getElementById("divPizza");
+                    imgPizza=document.createElement("img");
+                    imgPizza.id="img_pizza";
+                    imgPizza.src="pizza.jpg";
+                    imgPizza.precio=precioPizzaNueva;
+                    imgPizza.className="ingrediente";//le asignamos la clase para que se ponga en posicion
+                    divPizza.appendChild(imgPizza);
+                    
+                    pImporte=document.getElementById("importe");
+                    importe=document.createTextNode("Importe:" +precioPizzaNueva);
+                    pImporte.appendChild(importe);
+                    
+                    for(i=0;i<ingredientes.length;i++){
+                        btnIngrediente=document.createElement("button");
+                        nombreBoton=document.createTextNode(ingredientes[i]);
+                        btnIngrediente.appendChild(nombreBoton);
+                        btnIngrediente.id=ingredientes[i];
+                        btnIngrediente.precio=precios[i];
+                        btnIngrediente.onclick=anyadirIngrediente;
+                        document.body.appendChild(btnIngrediente);
+                    }
+                    
+                }
+                
+                function nuevaPizza(){
+                    alert("nueva Pizza");
+                    idIngrediente="img_"+this.id;
+                    while(divPizza.getElementsByTagName("img").length>1){
+                        divPizza.removeChild(divPizza.getElementsByTagName("img")[1]);
+                    }
+                    pImporte=document.getElementById("importe");
+                    pImporte.firstChild.nodeValue="Importe: "+precioPizzaNueva;
+
+                }
+                                
+                function anyadirIngrediente(){
+                    
+                    idIngrediente="img_"+this.id;
+                                        
+                    if(document.getElementById(idIngrediente)===null){
+                        srcImagenIngrediente=this.id+".png";
+                        imgIngrediente=document.createElement("img");
+                        imgIngrediente.id=idIngrediente;
+                        imgIngrediente.src=srcImagenIngrediente;
+                        imgIngrediente.className="ingrediente";
+
+                        divPizza=document.getElementById("divPizza");
+                        divPizza.appendChild(imgIngrediente);
+                        
+                        
+                        pImporte=document.getElementById("importe");
+                        importe=pImporte.firstChild.nodeValue;
+                        valorImporte=parseInt(sacarImporte(importe));
+                        valorImporte+=parseInt(this.precio);
+                        pImporte.firstChild.nodeValue="Importe: "+valorImporte;
+                        
+                    }else{
+                        imgIngrediente=document.getElementById(idIngrediente);
+                        divPizza.removeChild(imgIngrediente);
+                        
+                        pImporte=document.getElementById("importe");
+                        importe=pImporte.firstChild.nodeValue;
+                        valorImporte=parseInt(sacarImporte(importe));
+                        valorImporte-=parseInt(this.precio);
+                        pImporte.firstChild.nodeValue="Importe: "+valorImporte;
+                    }              
+                
+                }
+                
+                function sacarImporte(importe){
+                    posIgual = importe.indexOf(":");
+                    valorImporte=importe.slice(posIgual+1);
+                    return valorImporte;
+                }
+                    
+
+            </script>
+    </head>
+    <body>
+            <br>
+            <a href="">Nueva Pizza </a>
+            <p id="importe"></p>
+            <div id="divPizza"></div>
+    </body>
+</html>
